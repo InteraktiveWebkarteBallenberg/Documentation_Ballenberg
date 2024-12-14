@@ -1,0 +1,81 @@
+# Funktionalität der Webkarte
+
+Das Freilichtmuseum Ballenberg hat bereits eine Webkarte auf ihrer Website. Eine neue interaktive Karte soll dieser Karte zusätzliche Funktionen geben, ohne dabei das Aus-sehen und den Style der perspektivischen Karte zu ändern. Auf der neuen Karte sollen Besuchende ihren Besuch planen können. Es sollen Filter gesetzt werden können und daraus wird eine Route durchs Museum vorgeschlagen. Folgende Filter sind vorgesehen:
+
+<li>Zeit: Die geplante Aufenthaltsdauer, also wie lange die Route dauern soll und in welchem Zeitraum.</li>
+<li>Handwerk: Online einsehbar sind die Handwerks Mitmach-/Zuschaustationen. Diese sollen auf der Karte am richtigen Ort
+    dargestellt sein und mit gefiltert werden können.</li>
+<li>Tiere: Die Tiere stehen immer auf einer anderen Weide. Es soll möglich zu se-hen, wo die Tiere aktuell sind und auf
+    der Karte auch noch Informationen zu diesen Tieren zu erhalten.</li>
+<li>Gebäude: Die Gebäude haben verschiedene Attribute wie Baujahr, Baustil, etc.</li>
+<li>Barrierefreiheit: Nicht alle Wege sind Rollstuhl oder Kinderwagen tauglich.</li>
+
+Die Swisstopo-App bietet die Möglichkeit, Karten und Routen offline herunterzuladen und diese per QR-Code zugänglich zu machen. So können Nutzende ihre Routen vorab planen und offline im PDF- oder Druckformat mitnehmen. (Bundesamt für Landestopografie swisstopo, Bereich Kartografie 2023) Eine ähnliche Funktion soll auch umgesetzt werden.
+
+## Architekturdiagramm
+
+In der Visualisierung Abbildung 1 werden die Zusammenhänge und Abläufe zwischen den Rohdaten, dem Backend und dem Frontend aufgezeigt. Die digitale 2D Karte als Geopackage wird aus Open Street Map Daten und digitalisierten Wegen in QGIS erstellt und für die Routenberechnung mit FME in die postgres Datenbank importiert. Die Daten über das aktuelle Programm im Freilichtmuseum Ballenberg wird ebenfalls mit FME in postgres importiert. Die bereits bestehende, perspektivische Karte wird als SVG über eine FastAPI in das Frontend eingebunden. Die FastAPI dient im Allgemeinen dem Datentransfer zwischen der Datenbank, dem Eingabetool für die Landwirte und dem Frontend. Die gesamte Architektur kann im Verlauf des Projekts geändert werden, sowie weitere Libraries verwendet werden können.
+
+![Bild 1](/concept/konzept_fkt_1.png)
+
+**Abbildung 1**: Architekturdiagramm der Webkarte Ballenberg
+
+## Architecture Decision Record - Tierstandorterfassung
+
+Für die aktuelle Darstellung des Standorts der Tiergruppen in der Karte kommen verschiedene Möglichkeiten in Frage. Entweder könnten ein Tier pro Gruppe einen GNSS Tracker haben (z.B. in einer Glocke montiert), welcher den aktuellen Standort ausgibt, oder die Landwirte könnten mittels QR-Code am Eingang der Weide jeweils eintragen, welche Tiere jetzt aktuell auf dieser Weide sind.
+
+|                | GPS-Tracker                                                                       | QR-Code                                                 |
+|:------------------------|:-----------------------------------------------------------------------------------------------------|:----------------------------------------------------------|
+| Aufwand                | Einmal installiert läuft das System. Batterien müssen aber aufgeladen/ausgetauscht werden                                                                                    | Anbringen der QR-Codes und stetiges nachführen vor Ort nötig                                      |
+| Umsetzbarkeit | Schwierig                                                                              | Einfach                                          |
+| Fehleranfälligkeit   | Gering                               |  Kann vergessen gehen                                                         |
+| Kosten              | Tracker sind nicht kostengünstig.                                               | keine zusätzlichen Kosten, System läuft auf gleichem Server wie die interaktive Karte.                           |
+
+**Fazit/Entscheid:** An der Besprechung mit dem Ballenberg und den Landwirten am 2.10.24 wurde entschieden, dass die Umsetzung mittels GPS-Tracker nicht in Frage kommt. Es gibt Tiere, die nichts haben, woran man diese befestigen könnte und es wurde klar, dass eine möglichst einfache Lösung gebraucht wird. Auch der QR-Code sollen nicht an den Weiden befestigt werden, sondern lieber zentral in einem Büro aufliegen. Aufgrund dieser Rückmeldung wurde etwas Neues ausgedacht. Mit einer separaten Anwendung, auf die jeder Landwirt mit Smartphone oder Laptop zugreifen kann, soll jeweils das Zuweisen der Tiere auf die Weide nachgeführt werden können.
+
+## Anwendung Landwirte - Mockup
+
+In der interaktiven Karte soll immer aktuell dargestellt sein, wo sich welche Tiere aufhalten. Die Landwirte sollen diese mit einer separaten Anwendung erfassen können. Die folgenden Abbildungen zeigen die geplante Umsetzung dieser Anwendung.
+
+<div style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '20px',
+    textAlign: 'center',
+}}>
+    <div>
+        <img src="/concept/konzept_fkt_2.png" alt="konzept_fkt_2" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Der Zugriff ist geregelt, in dem man sich nur mit dem einheitlichen Passwort einloggen kann.</p>
+    </div>
+    <div>
+        <img src="/concept/konzept_fkt_3.png" alt="konzept_fkt_3" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Die Hauptanwendung zeigt alle Tiergruppen und wo sie sich gemäss System zurzeit befinden.</p>
+    </div>
+    <div>
+        <img src="/concept/konzept_fkt_4.png" alt="konzept_fkt_4" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Durch Klicken auf eine Gruppe kann diese einer neuen Weide zugewiesen werden.</p>
+    </div>
+    <div>
+        <img src="/concept/konzept_fkt_5.png" alt="konzept_fkt_5" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Über den Reiter bearbeiten wird die Bearbeit-Funktion freigeschaltet.</p>
+    </div>
+    <div>
+        <img src="/concept/konzept_fkt_6.png" alt="konzept_fkt_6" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Darin kann eine Gruppe bearbeitet werden. Der Name der Gruppe kann man ändern oder andere Tierrassen der Gruppe zuweisen.</p>
+    </div>
+    <div>
+        <img src="/concept/konzept_fkt_7.png" alt="konzept_fkt_7" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Wird eine Gruppe gelöscht, muss dies nochmals bestätigt werden. So werden Fehlinteraktionen vermieden.</p>
+    </div>
+    <div>
+        <img src="/concept/konzept_fkt_8.png" alt="konzept_fkt_8" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Beim Erfassen einer neuen Gruppe muss der Name definiert werden und die Tierrassen hinzugefügt werden.</p>
+    </div>
+    <div>
+        <img src="/concept/konzept_fkt_9.png" alt="konzept_fkt_9" style={{ maxWidth: '100%', height: 'auto', marginTop: '20px', marginBottom: '10px' }} />
+        <p>Auch hier werden Fehlinteraktionen abgefangen. Das Angeben eines Namens ist Pflicht.</p>
+    </div>
+    {/* Letztes Feld bleibt leer */}
+    <div></div>
+</div>
+
