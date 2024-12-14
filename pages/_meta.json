@@ -1,15 +1,15 @@
 {
-  "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
+  "index": "Einführung",
+  "konzept": "Konzept",
+  "bericht": "Bericht",
   "about": {
-    "title": "About",
+    "title": "Über uns",
     "type": "page"
   },
   "contact": {
-    "title": "Contact ↗",
+    "title": "Kontakt ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
-    "newWindow": true
+    "href": "mailto:interaktivewebkarteballenberg@gmail.com",
+    "newWindow": false
   }
 }
