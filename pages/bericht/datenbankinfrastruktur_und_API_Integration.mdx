@@ -1,51 +1,55 @@
-# 4	Datenbankinfrastruktur und API-Integration
+# 4 Datenbankinfrastruktur und API-Integration
+
 Sämtliche Daten für die Infrastruktur der Webanwendung sowie der Landwirte-Anwendung (Kapitel 5) sind in einer PostgreSQL-Datenbank abgespeichert. Dies erlaubt die standardisierte Verwaltung aller Daten aller Informationen im Projekt. Für das Verwalten der räumlichen Daten ist die Erweiterung PostGIS installiert. Der Zugriff auf die Datenbank wird durch ein Application Programming Interface (API) geregelt.
 
-## 4.1	Schemas und User
-Die Datenbank sind in unterschiedliche Thematische Schemas unterteilt. In **Tabelle 1** sind die Zugriffsberechtigungen der User aufgeführt. Aus Sicherheitsgründen haben die User nur Zugriff auf die Schemas, die sie benötigen.  
+## 4.1 Schemas und User
 
-| **Benutzername**       | **Berechtigungen**                                        | **Zugriff auf Schemas**                 |
-|-------------------------|----------------------------------------------------------|----------------------------------------|
-| *postgres* (Standart-Superuser) | Benutzer, Datenbanken und Schemas erstellen in allen Datenbanken | Alle                                   |
-| *studentadmin* (Superuser in der ballenberg_db) | Benutzer und Schemas erstellen in dieser Datenbank      | Alle                                   |
-| *user_webmap*          | Lesezugriff in Tabellen und Views                         | webmap, activities und farmers         |
-| *User_farmer*          | Lese- und Schreibzugriff in Tabelle und Views             | farmers                                |  
+Die Datenbank sind in unterschiedliche Thematische Schemas unterteilt. In **Tabelle 1** sind die Zugriffsberechtigungen der User aufgeführt. Aus Sicherheitsgründen haben die User nur Zugriff auf die Schemas, die sie benötigen.
 
-**Tabelle 1**: Auflistung aller User-Gruppen mit den jeweiligen Berechtigungen und Zugriffsschemas auf die Datenbank  
+| **Benutzername**                                | **Berechtigungen**                                               | **Zugriff auf Schemas**        |
+| :---------------------------------------------- | :--------------------------------------------------------------- | :----------------------------- |
+| _postgres_ (Standart-Superuser)                 | Benutzer, Datenbanken und Schemas erstellen in allen Datenbanken | Alle                           |
+| _studentadmin_ (Superuser in der ballenberg_db) | Benutzer und Schemas erstellen in dieser Datenbank               | Alle                           |
+| _user_webmap_                                   | Lesezugriff in Tabellen und Views                                | webmap, activities und farmers |
+| _User_farmer_                                   | Lese- und Schreibzugriff in Tabelle und Views                    | farmers                        |
+
+**Tabelle 1**: Auflistung aller User-Gruppen mit den jeweiligen Berechtigungen und Zugriffsschemas auf die Datenbank
 
 Der Datenimport in die Datenbank ist in einer Feature Manipulation Engine Workbench (FME) definiert. Die Grundlagedaten werden nach der manuellen Bereinigung mit in der Workbench angepasst. Dies umfasst das Umbenennen der Attribute die Erstellung von Identifikatoren. Während der Entwicklung der Plattform gibt es verschiede Änderungen im Datenbankmodell. Grund dafür ist, dass Bedürfnisse, wie zum Beispiel ein zusätzliches Attribut, erst während der Entwicklung erkannt werden. Um dies mit wenig Aufwand umzusetzen, wird beim Datenimport die Datenbank gelöscht, neu erstellt und anschiessend die Daten importiert.
 
-## 4.2	Landwirte-Anwendung Datenbank
+## 4.2 Landwirte-Anwendung Datenbank
+
 Aus der Landwirte-Anwendung werden Daten aus der Datenbank gespeichert. Genutzt werden diesen anschliessend in der Webanwendung. Diese Informationen umfassen die Tierart, Tierrasse, Ost-West-Einteilungen, Gruppennamen und Weidenamen. Die Tierrassen und Tierarten, welche ausgewählt werden können, sind nicht in der Datenbank gespeichert. Grund dafür ist, dass dies nicht notwenige Komplexität zum Projekt hinzufügt, welche keinen Mehrwert für das Gesamtprojekt mit sich bringt. In der **Abbildung 7** ist ein mögliches Datenbankmodell, welches auch diese Informationen in einer relationalen Datenbank abbilden kann.  
 ![Abbildung7](/documentary/Abbildung_7.png)
-**Abbildung 7**: Schematischer Aufbau einer möglichen Erweiterung des Datenbankmodells für die Landwirte-Anwendung  
+**Abbildung 7**: Schematischer Aufbau einer möglichen Erweiterung des Datenbankmodells für die Landwirte-Anwendung
 
 Um später nach Tierrassen in der Webanwendung filtern zu können, wurde das bestehende Datenbankmodell um das Attribut „farmers_group_breed_tag“ ergänzt. Dies ist für die Landwirte-Anwendung so nicht nötig, jedoch für die Filter in der Webanwendung. Die Tierrassen werden als Text (Komma getrennt) gespeichert. Problematisch ist dabei, dass dieses Attribut ohne weitere Formatierung nicht nutzbar ist. Deshalb ist ein zusätzlicher Arbeitsschritt in der API nötig, welcher die extrahierten Werte weiterverwendbar macht.
 
-## 4.3	Aktivitäten
-Die Handwerks- und Mitmachaktivitäten sind in einer einzigen Tabelle gespeichert. Die Lösung mit einer relationalen Datenbank, die Kategorie, Beschreibungen, Datum und Zeit und Aktivitäten in separaten Tabellen speichert, konnte nicht ohne Fehler umgesetzt werden. Der Vorteil von einer einzigen Tabelle liegt darin, dass keine SQL-View benötigt wird, um die Informationen aus den verschiedenen Tabellen zusammenzusetzen.  
+## 4.3 Aktivitäten
 
-Das genaue Problem konnte im Rahmen dieser Arbeit nicht behoben werden. Alle Funktionalitäten für Abfragen sind mit der jetzigen Lösung möglich.  
+Die Handwerks- und Mitmachaktivitäten sind in einer einzigen Tabelle gespeichert. Die Lösung mit einer relationalen Datenbank, die Kategorie, Beschreibungen, Datum und Zeit und Aktivitäten in separaten Tabellen speichert, konnte nicht ohne Fehler umgesetzt werden. Der Vorteil von einer einzigen Tabelle liegt darin, dass keine SQL-View benötigt wird, um die Informationen aus den verschiedenen Tabellen zusammenzusetzen.
 
-Bei einer Weiterentwicklung des Projekts ist es das Ziel, auf eine Datenhaltung der Aktivitäten zu verzichten. Die Informationen der Aktivitäten sollen direkt aus dem Content-Management-System des Ballenbergs bezogen werden. Dies ist eine Anwendung, mit der Mitarbeitende des Ballenbergs ohne Programmierkenntnisse Webinhalte teilen können. Vorteilhaft ist hier vor allem, dass es keine redundanten Daten gibt. Dadurch wären die Informationen auf der Webseite und der Webanwendung identisch, auch wenn diese angepasst werden.  
+Das genaue Problem konnte im Rahmen dieser Arbeit nicht behoben werden. Alle Funktionalitäten für Abfragen sind mit der jetzigen Lösung möglich.
 
-## 4.4	Application Programming Interface
+Bei einer Weiterentwicklung des Projekts ist es das Ziel, auf eine Datenhaltung der Aktivitäten zu verzichten. Die Informationen der Aktivitäten sollen direkt aus dem Content-Management-System des Ballenbergs bezogen werden. Dies ist eine Anwendung, mit der Mitarbeitende des Ballenbergs ohne Programmierkenntnisse Webinhalte teilen können. Vorteilhaft ist hier vor allem, dass es keine redundanten Daten gibt. Dadurch wären die Informationen auf der Webseite und der Webanwendung identisch, auch wenn diese angepasst werden.
 
-Der Zugriff von den Webanwendungen auf die Datenbank ist durch ein API sichergestellt. Diese ist im Architekturstil REST (Representational State Transfer) aufgebaut. Dafür wird die Microframework flask verwendet. Ausgegeben werden die Daten im JSON-Format.  
+## 4.4 Application Programming Interface
 
-Der Zugriff auf die Datenbank erfolgt mit verschieden Benutzer, die ja nach Abfrage verschiedene Rechte haben (**Kapitel 4.1**). Die Konfiguration der Nutzenden Namen und Passwörter ist extern in einer Config-Datei gespeichert, welche nicht im Git-Repository enthalten ist. So ist sichergestellt, dass keine Passwörter im Internet geteilt werden.  
+Der Zugriff von den Webanwendungen auf die Datenbank ist durch ein API sichergestellt. Diese ist im Architekturstil REST (Representational State Transfer) aufgebaut. Dafür wird die Microframework flask verwendet. Ausgegeben werden die Daten im JSON-Format.
 
-Die Endpoints in der **Tabelle 2** sind gegliedert nach Themenbereichen auf welchen Daten bezogen werden.  
+Der Zugriff auf die Datenbank erfolgt mit verschieden Benutzer, die ja nach Abfrage verschiedene Rechte haben (**Kapitel 4.1**). Die Konfiguration der Nutzenden Namen und Passwörter ist extern in einer Config-Datei gespeichert, welche nicht im Git-Repository enthalten ist. So ist sichergestellt, dass keine Passwörter im Internet geteilt werden.
 
-| **Endpoint**           | **Beschreibung**                             |
-|-------------------------|---------------------------------------------|
-| `/api/farmers_group`   | Informationen für die Landwirte-Anwendung    |
-| `/api/graze`           | Weiden Informationen                        |
-| `/api/route`           | Generierung der Routen                      |
-| `/api/filter`          | Informationen für die Filter                |
+Die Endpoints in der **Tabelle 2** sind gegliedert nach Themenbereichen auf welchen Daten bezogen werden.
 
-**Tabelle 2**: Auflistung aller erstellten API-Endpoints mit ihrer Beschreibung  
+| **Endpoint**         | **Beschreibung**                          |
+| :------------------- | :---------------------------------------- |
+| `/api/farmers_group` | Informationen für die Landwirte-Anwendung |
+| `/api/graze`         | Weiden Informationen                      |
+| `/api/route`         | Generierung der Routen                    |
+| `/api/filter`        | Informationen für die Filter              |
 
+**Tabelle 2**: Auflistung aller erstellten API-Endpoints mit ihrer Beschreibung
 
-Für einige Endpoints ist die Formatierung der Daten notwendig, wie das Entfernen von Umlauten, separieren von Kommagetrennten Einträgen und Zählen der Häufigkeit der zurückgegeben Einträge.   
-Keine der API-Endpoints gibt direkt eine Geometrie zurück. Grund dafür ist, dass weder die Landwirte-Anwendung noch die Webanwendung eine klassische zweidimensionale Karte verwendet. Aus diesem Grund kann das Microframework flask alle benötigen Funktionen für das Projekt abdecken. Es konnte auf die Verwendung eines Geoservers verzichtet werden, welcher komplexe Geometrien handhaben kann.  
+Für einige Endpoints ist die Formatierung der Daten notwendig, wie das Entfernen von Umlauten, separieren von Kommagetrennten Einträgen und Zählen der Häufigkeit der zurückgegeben Einträge.
+
+Keine der API-Endpoints gibt direkt eine Geometrie zurück. Grund dafür ist, dass weder die Landwirte-Anwendung noch die Webanwendung eine klassische zweidimensionale Karte verwendet. Aus diesem Grund kann das Microframework flask alle benötigen Funktionen für das Projekt abdecken. Es konnte auf die Verwendung eines Geoservers verzichtet werden, welcher komplexe Geometrien handhaben kann.
