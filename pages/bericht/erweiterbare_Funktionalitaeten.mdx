@@ -1,27 +1,34 @@
-# 8	Erweiterbare Funktionalitäten
+# 8 Erweiterbare Funktionalitäten
+
 Dieser Abschnitt beschreibt mögliche Erweiterungen und Funktionalitäten, die in zukünftigen Versionen der Webanwendung implementiert werden könnten.
 
-## 8.1	Interaktives Tutorial
-Ein interaktives Tutorial könnte hinzugefügt werden, um neuen Besuchenden die Bedienung der Webanwendung zu erleichtern. Ähnlich wie in einem Computerspiel, in dem grundlegende Funktionen im ersten Level erklärt werden, führt dieses Tutorial die Nutzenden durch die wichtigsten Features. Es erscheint ausschliesslich beim ersten Besuch der Anwendung. Die Annahme ist, dass die meisten Besuchenden des Freilichtmuseums Ballenberg die Webanwendung für die Routengenerierung nicht mehrmals jährlich nutzen. Deshalb könnte dieses Tutorial von Vorteil sein.  
+## 8.1 Interaktives Tutorial
 
-## 8.2	Hervorheben von Gebäuden
-Gebäude sollen basierend auf den Auswahlkriterien der Besuchenden hervorgehoben werden können. Beispielsweise können alle Gebäude einer bestimmten Baujahr-Epoche oder Gebäudekammer visuell betont werden. Eine mögliche Umsetzung besteht darin, nicht ausgewählte Elemente durch eine transpanente Schicht zu überlagern, um den Fokus auf die relevanten Elemente zu legen, ähnlich wie in **Abbildung 6** ersichtlich.  
+Ein interaktives Tutorial könnte hinzugefügt werden, um neuen Besuchenden die Bedienung der Webanwendung zu erleichtern. Ähnlich wie in einem Computerspiel, in dem grundlegende Funktionen im ersten Level erklärt werden, führt dieses Tutorial die Nutzenden durch die wichtigsten Features. Es erscheint ausschliesslich beim ersten Besuch der Anwendung. Die Annahme ist, dass die meisten Besuchenden des Freilichtmuseums Ballenberg die Webanwendung für die Routengenerierung nicht mehrmals jährlich nutzen. Deshalb könnte dieses Tutorial von Vorteil sein.
 
-## 8.3	Such- und Filterfunktion
-Eine Erweiterung der Webanwendung könnte eine Such- und Filterfunktion beinhalten, die es den Besuchenden ermöglicht, gezielt nach bestimmten Inhalten wie Programmpunkte, Tierrassen oder anderen Kategorien zu suchen.  
+## 8.2 Hervorheben von Gebäuden
 
-## 8.4	Plattformunabhängigkeit
+Gebäude sollen basierend auf den Auswahlkriterien der Besuchenden hervorgehoben werden können. Beispielsweise können alle Gebäude einer bestimmten Baujahr-Epoche oder Gebäudekammer visuell betont werden. Eine mögliche Umsetzung besteht darin, nicht ausgewählte Elemente durch eine transpanente Schicht zu überlagern, um den Fokus auf die relevanten Elemente zu legen, ähnlich wie in **Abbildung 6** ersichtlich.
+
+## 8.3 Such- und Filterfunktion
+
+Eine Erweiterung der Webanwendung könnte eine Such- und Filterfunktion beinhalten, die es den Besuchenden ermöglicht, gezielt nach bestimmten Inhalten wie Programmpunkte, Tierrassen oder anderen Kategorien zu suchen.
+
+## 8.4 Plattformunabhängigkeit
+
 Derzeit ist die Webanwendung für grössere Monitore optimiert. Eine zukünftige Anpassung könnte das Layout für kleinere Bildschirme, wie Laptops oder Smartphones, skalierbar machen, um eine grössere Zielgruppe zu erreichen.
 
-## 8.5	Optimierte Funktionalität
-Aktuell werden SVG-Elemente manuell angepasst, was den Arbeitsaufwand erhöht und die Pflege der Webanwendung erschwert. Änderungen an den SVG-Dateien erfordern derzeit einen Export, die Bereinigung der Datei und das manuelle Einpflegen in die Anwendung. Zudem werden einige Komponenten als separate SVG-Layer eingebunden, während andere, wie die Pop-up-Elemente, direkt inline definiert sind. Dies führt zu inkonsistenter Handhabung, da bei Änderungen sowohl die Layer, als auch die Inline-Elemente manuell aktualisiert werden müssen.  
+## 8.5 Optimierte Funktionalität
+
+Aktuell werden SVG-Elemente manuell angepasst, was den Arbeitsaufwand erhöht und die Pflege der Webanwendung erschwert. Änderungen an den SVG-Dateien erfordern derzeit einen Export, die Bereinigung der Datei und das manuelle Einpflegen in die Anwendung. Zudem werden einige Komponenten als separate SVG-Layer eingebunden, während andere, wie die Pop-up-Elemente, direkt inline definiert sind. Dies führt zu inkonsistenter Handhabung, da bei Änderungen sowohl die Layer, als auch die Inline-Elemente manuell aktualisiert werden müssen.
 
 Eine optimierte Lösung besteht darin, die SVG-Elemente modular zu gestalten und zentral zu steuern. So könnten beispielsweise Tiersymbole nicht als Teil einer gesamten Ebene, sondern als eigenständige, dynamische Elemente eingebunden werden. Diese Symbole würden auf Basis von API-Abfragen automatisch an die passenden Positionen auf der Karte gesetzt. Ein solcher Ansatz würde nicht nur die Aktualisierung der Symbole erleichtern, sondern auch die Effizienz bei künftigen Anpassungen erhöhen. Durch die Zentralisierung der Steuerung könnten Änderungen an der Symbologie an einem einzigen Ort vorgenommen werden, was die Wartbarkeit und Flexibilität der Anwendung steigern.
 
-## 8.6	Routenreport
-Die Nachvollziehbarkeit der generierten Route würde über einen Report verbessert werden. Dieser ist im Mockup angedacht und in der Abbildung 25 ersichtlich. Der Report ist DIN-A4 gross, sodass er ausgedruckt werden könnte. Alternativ stünde er als PDF digital zur Verfügung. Inhaltlich zeigt er die Route im Plan und die Eckdaten dazu. In einer Timeline sind alle gemäss Planung anzulaufenden Punkte dargestellt. Die Aufenthaltszeiten und einzuhaltenden Uhrzeiten für Veranstaltungen sind auch ersichtlich. Die Abstände der Punkte zueinander sind entsprechend der Gehdistanz dazwischen.  
+## 8.6 Routenreport
 
-Wichtig in einem Report wäre der Hinweis, dass die Route am Besuchstag nochmals geprüft werden muss. Den die Tierstandort und die Veranstaltungen könnten noch ändern.  
+Die Nachvollziehbarkeit der generierten Route würde über einen Report verbessert werden. Dieser ist im Mockup angedacht und in der Abbildung 25 ersichtlich. Der Report ist DIN-A4 gross, sodass er ausgedruckt werden könnte. Alternativ stünde er als PDF digital zur Verfügung. Inhaltlich zeigt er die Route im Plan und die Eckdaten dazu. In einer Timeline sind alle gemäss Planung anzulaufenden Punkte dargestellt. Die Aufenthaltszeiten und einzuhaltenden Uhrzeiten für Veranstaltungen sind auch ersichtlich. Die Abstände der Punkte zueinander sind entsprechend der Gehdistanz dazwischen.
 
-![Abbildung 25](/documentary/Abbildung_25.png)  
+Wichtig in einem Report wäre der Hinweis, dass die Route am Besuchstag nochmals geprüft werden muss. Den die Tierstandort und die Veranstaltungen könnten noch ändern.
+
+![Abbildung 25](/documentary/Abbildung_25.png)
 **Abbildung 25**: Angedachter Routenexport gemäss Mockup. Im Header werden grundlegende Inhalte wie der Überschrift und zeitlichen Angaben dargestellt. Zusätzlich wird in roter Schrift ein Hinweis gegeben, dass sich angezeigte Elemente bis hin zum Besuchstag ändern können. Der mittlere Bereich des Reports zeigt die Übersichtskarte des Freilichtmuseums Ballenberg mit integrierter Route, welche im unteren Bereich auf einem Zeitstrahl abgebildet wird.
