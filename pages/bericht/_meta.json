@@ -8,5 +8,5 @@
   "umsetzung_Routing": { "title": "Umsetzung Routing", "order": 7 },
   "erweiterbare_Funktionalitaeten": { "title": "Erweiterbare Funktionalitäten", "order": 8 },
   "schluss": { "title": "Schluss", "order": 9 },
-  "persönliche Reflexion": { "title": "Persönliche Reflexion", "order": 10 }
+  "persoenliche_Reflexion": { "title": "Persönliche Reflexion", "order": 10 }
 }
