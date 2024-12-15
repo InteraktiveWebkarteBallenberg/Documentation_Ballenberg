@@ -3,7 +3,9 @@ Ziel des Routings ist es, die bestmögliche Route für den Besuchenden zu erstel
 
 ## 7.1	Konzept
 Die Parameter des Routings werden in der Webanwendung als Filter angeben, mit diesen dann die bestmögliche Route berechnet wird und anschliessend in der Karte angezeigt wird.  
+
 Die erstellte Route muss die Aktivitätszeiten einhalten, die Aufenthaltszeit jedes Stopps berücksichtigen, innerhalb angeben Aufenthaltszeiten liegen und die angegebenen Interessen abbilden.  
+
 In einer ersten Phase wird die Reihenfolge der Pflichtaktivitäten berechnet, da dort der Zeitpunkt die grösste Einschränkung mit sich bringt. Damit lässt sich der zur Verfügung stehende Zeitraum zwischen diesen Aktivitäten berechnen. In einer zweiten Phase werden die Orte bestimmt, die von Interesse sind und zeitlich machbar sind. Dann kann die effektive Route berechnet werden.  
 
 ## 7.2	Grundlagen
@@ -11,14 +13,20 @@ Für das Routing braucht es ein topologisch lückenloses Weg-Netz. Die Bereinigu
 
 ## 7.3	Prototyp
 Für das Routing wird die Erweiterung pgRouting verwendet. Diese läuft direkt auf der PostgreSQL-Datenbank.  
+
 Als Grundlage des Codes, der für das Routing verwendet wird, dient die Übung 14 aus dem Buch pgRouting: a practical guide (Obe/Hsu 2017). Um die den Code und die Resultate zu verstehen und im Anschluss zu adaptieren, ist es notwendig, die Übungen durchzuarbeiten.  
+
 Der im Buch mitgelieferte Code und die Daten geben ein anderes Resultat als es gemäss Buch sein sollte. Das herausgegebene Resultat ist nicht eindeutig zu interpretieren, da nicht klar ist, wann die Route genau beginnt (**Abbildung 24**). Die berechnete Route ist mehr als doppelt so lange wie die Lösung vom Buch. Grafisch ist in der Karte ersichtlich, dass die Reihenfolge nicht optimiert ist.  
+
 ![Abbildung 24](/documentary/Abbildung_24.png)  
 **Abbildung 24**: Vergleich der Routing Lösungen verschiedener Versionen. Die roten und blauen Linien sind die Routen der Fahrzeuge eins und zwei.  
 
 Ein möglicher Grund ist, dass die Übungen auf Softwareversionen aus dem Jahr 2017 basieren. Das Installieren alter, nicht mehr unterstützter Versionen, wird als nicht sinnvoll erachtet, da diese keine Sicherheitsupdates erhalten.  
+
 Die genutzte Funktion pgr_vrpOneDepot ist in der Dokumentation als „experimental“ gekennzeichnet und könnte bei der Nutzung einen Server Absturz verursachen. Dies ist keine gute Voraussetzung für einen dauerhaften Betrieb der Webanwendung.(pgRouting 2024b)  
+
 Dies sind alles Gründe eine alternative Routing Engine zu verwenden. Aus Zeitgründen konnte keine andere Routing Engine untersucht werden.  
+
 Die oben genannte Funktion versuche das Vehicle Routing Problem zu lösen. Diese handelt von Fahrzeugen, die von einem Ort starten und gewisse Standorte anfahren müssen. Dabei werden die Öffnungszeiten und die Kapazität der Fahrzeuge berücksichtigt und die Fahrzeuge sollen möglichst wenig Distanz zurücklegen.  
 
 ## 7.4	Technische Umsetzung
@@ -34,9 +42,12 @@ Die Technische Umsetzung ist in folgende Schritte unterteilt:
 9.	SVG ID an die Webanwendung zurückgeben  
 
 Der Unterschied zwischen den Prototypen und der technischen Umsetzung ist, dass alles in einer Abfrage berechnet wird. Die Tabelle der Kosten und der zu besuchenden Standorten sind nur temporär, damit bei mehreren Abfragen gleichzeitig kein Konflikt entsteht. Sobald die Abfrage beendet ist, löschen sich diese Tabellen automatisch.  
+
 Die Anzahl der Fahrzeuge ist auf eines begrenzt, da eine Gesamtroute für einen Besuchenden erforderlich ist. Die Kapazität spielt keine Rolle.  
+
 Das Resultat umfasst eine Liste der Wegsegmente, welche mit den Linien aus der Karte topologisch übereinstimmt. Für die Verknüpfung der Elemente gibt es eigens das Attribut „SVG ID“. Dieses wurde beim Datenbankimport vergeben und ist statisch. Die Linien zu den Hauszugängen werden nicht in der Karte dargestellt, sind aber nötig für das Routing im Hintergrund. Auch wenn eine Linie zusätzlich unterteilt wird, ändert sich die „ID“, jedoch bleibt die „SVG ID“ gleich. Dies erlaubt das Ändern der Grundlagedaten, ohne dass in der Karte die Anpassungen nötig sind.  
 
 ## 7.5	Nicht umgesetzte Funktionen
 Die zweite Phase des Routings ist nicht umgesetzt. Es findet keine Berücksichtigung der Interessen für die Route zwischen Pflichtaktivitäten statt. Die Schwierigkeit ist, dass nicht klar ist, welche Standorte besucht werden müssen. Es sollen nur so viele besucht werden, wie Zeit zwischen den Pflichtaktivitäten zu Verfügung steht. Diese Funktion als solches existiert nicht im pgRouting. Eine Möglichkeit wäre es, Standorte aus der Liste zu entfernen bis die Zeit eingehalten wird. Zusätzlich sollen die Wege bevorzugt werden, die neu für den Besuchenden sind. Dies bedeutet, dass die Kosten nach jeder Routenberechnung zwischen Pflichtaktivitäten angepasst wird und die Kosten bereits genutzter Wegsegmente steigen.  
+
 Für jedes Gebäude wäre es sinnvoll eine individuelle Aufenthaltszeit zu ergänzen, da sich diese je nach Grösse das Objekts massiv unterscheidet.  

@@ -15,10 +15,13 @@ Derzeit ist die Webanwendung für grössere Monitore optimiert. Eine zukünftige
 
 ## 8.5	Optimierte Funktionalität
 Aktuell werden SVG-Elemente manuell angepasst, was den Arbeitsaufwand erhöht und die Pflege der Webanwendung erschwert. Änderungen an den SVG-Dateien erfordern derzeit einen Export, die Bereinigung der Datei und das manuelle Einpflegen in die Anwendung. Zudem werden einige Komponenten als separate SVG-Layer eingebunden, während andere, wie die Pop-up-Elemente, direkt inline definiert sind. Dies führt zu inkonsistenter Handhabung, da bei Änderungen sowohl die Layer, als auch die Inline-Elemente manuell aktualisiert werden müssen.  
+
 Eine optimierte Lösung besteht darin, die SVG-Elemente modular zu gestalten und zentral zu steuern. So könnten beispielsweise Tiersymbole nicht als Teil einer gesamten Ebene, sondern als eigenständige, dynamische Elemente eingebunden werden. Diese Symbole würden auf Basis von API-Abfragen automatisch an die passenden Positionen auf der Karte gesetzt. Ein solcher Ansatz würde nicht nur die Aktualisierung der Symbole erleichtern, sondern auch die Effizienz bei künftigen Anpassungen erhöhen. Durch die Zentralisierung der Steuerung könnten Änderungen an der Symbologie an einem einzigen Ort vorgenommen werden, was die Wartbarkeit und Flexibilität der Anwendung steigern.
 
 ## 8.6	Routenreport
 Die Nachvollziehbarkeit der generierten Route würde über einen Report verbessert werden. Dieser ist im Mockup angedacht und in der Abbildung 25 ersichtlich. Der Report ist DIN-A4 gross, sodass er ausgedruckt werden könnte. Alternativ stünde er als PDF digital zur Verfügung. Inhaltlich zeigt er die Route im Plan und die Eckdaten dazu. In einer Timeline sind alle gemäss Planung anzulaufenden Punkte dargestellt. Die Aufenthaltszeiten und einzuhaltenden Uhrzeiten für Veranstaltungen sind auch ersichtlich. Die Abstände der Punkte zueinander sind entsprechend der Gehdistanz dazwischen.  
+
 Wichtig in einem Report wäre der Hinweis, dass die Route am Besuchstag nochmals geprüft werden muss. Den die Tierstandort und die Veranstaltungen könnten noch ändern.  
+
 ![Abbildung 25](/documentary/Abbildung_25.png)  
 **Abbildung 25**: Angedachter Routenexport gemäss Mockup. Im Header werden grundlegende Inhalte wie der Überschrift und zeitlichen Angaben dargestellt. Zusätzlich wird in roter Schrift ein Hinweis gegeben, dass sich angezeigte Elemente bis hin zum Besuchstag ändern können. Der mittlere Bereich des Reports zeigt die Übersichtskarte des Freilichtmuseums Ballenberg mit integrierter Route, welche im unteren Bereich auf einem Zeitstrahl abgebildet wird.

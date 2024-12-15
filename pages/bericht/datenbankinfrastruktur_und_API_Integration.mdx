@@ -3,6 +3,7 @@ Sämtliche Daten für die Infrastruktur der Webanwendung sowie der Landwirte-Anw
 
 ## 4.1	Schemas und User
 Die Datenbank sind in unterschiedliche Thematische Schemas unterteilt. In **Tabelle 1** sind die Zugriffsberechtigungen der User aufgeführt. Aus Sicherheitsgründen haben die User nur Zugriff auf die Schemas, die sie benötigen.  
+
 | **Benutzername**       | **Berechtigungen**                                        | **Zugriff auf Schemas**                 |
 |-------------------------|----------------------------------------------------------|----------------------------------------|
 | *postgres* (Standart-Superuser) | Benutzer, Datenbanken und Schemas erstellen in allen Datenbanken | Alle                                   |
@@ -23,13 +24,19 @@ Um später nach Tierrassen in der Webanwendung filtern zu können, wurde das bes
 
 ## 4.3	Aktivitäten
 Die Handwerks- und Mitmachaktivitäten sind in einer einzigen Tabelle gespeichert. Die Lösung mit einer relationalen Datenbank, die Kategorie, Beschreibungen, Datum und Zeit und Aktivitäten in separaten Tabellen speichert, konnte nicht ohne Fehler umgesetzt werden. Der Vorteil von einer einzigen Tabelle liegt darin, dass keine SQL-View benötigt wird, um die Informationen aus den verschiedenen Tabellen zusammenzusetzen.  
+
 Das genaue Problem konnte im Rahmen dieser Arbeit nicht behoben werden. Alle Funktionalitäten für Abfragen sind mit der jetzigen Lösung möglich.  
+
 Bei einer Weiterentwicklung des Projekts ist es das Ziel, auf eine Datenhaltung der Aktivitäten zu verzichten. Die Informationen der Aktivitäten sollen direkt aus dem Content-Management-System des Ballenbergs bezogen werden. Dies ist eine Anwendung, mit der Mitarbeitende des Ballenbergs ohne Programmierkenntnisse Webinhalte teilen können. Vorteilhaft ist hier vor allem, dass es keine redundanten Daten gibt. Dadurch wären die Informationen auf der Webseite und der Webanwendung identisch, auch wenn diese angepasst werden.  
 
 ## 4.4	Application Programming Interface
+
 Der Zugriff von den Webanwendungen auf die Datenbank ist durch ein API sichergestellt. Diese ist im Architekturstil REST (Representational State Transfer) aufgebaut. Dafür wird die Microframework flask verwendet. Ausgegeben werden die Daten im JSON-Format.  
+
 Der Zugriff auf die Datenbank erfolgt mit verschieden Benutzer, die ja nach Abfrage verschiedene Rechte haben (**Kapitel 4.1**). Die Konfiguration der Nutzenden Namen und Passwörter ist extern in einer Config-Datei gespeichert, welche nicht im Git-Repository enthalten ist. So ist sichergestellt, dass keine Passwörter im Internet geteilt werden.  
+
 Die Endpoints in der **Tabelle 2** sind gegliedert nach Themenbereichen auf welchen Daten bezogen werden.  
+
 | **Endpoint**           | **Beschreibung**                             |
 |-------------------------|---------------------------------------------|
 | `/api/farmers_group`   | Informationen für die Landwirte-Anwendung    |
@@ -38,6 +45,7 @@ Die Endpoints in der **Tabelle 2** sind gegliedert nach Themenbereichen auf welc
 | `/api/filter`          | Informationen für die Filter                |
 
 **Tabelle 2**: Auflistung aller erstellten API-Endpoints mit ihrer Beschreibung  
+
 
 Für einige Endpoints ist die Formatierung der Daten notwendig, wie das Entfernen von Umlauten, separieren von Kommagetrennten Einträgen und Zählen der Häufigkeit der zurückgegeben Einträge.   
 Keine der API-Endpoints gibt direkt eine Geometrie zurück. Grund dafür ist, dass weder die Landwirte-Anwendung noch die Webanwendung eine klassische zweidimensionale Karte verwendet. Aus diesem Grund kann das Microframework flask alle benötigen Funktionen für das Projekt abdecken. Es konnte auf die Verwendung eines Geoservers verzichtet werden, welcher komplexe Geometrien handhaben kann.  

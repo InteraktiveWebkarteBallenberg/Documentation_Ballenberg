@@ -1,19 +1,23 @@
 # 6	Webanwendung
 Die Webanwendung zur Routenerstellung wird ebenfalls als React-App umgesetzt. Vorgängig wird ein Mockup erstellt, welches den Erstellungsprozess später erleichtert. Die Anwendung ist im Rahmen dieses Projekts ausschliesslich für die Bedienung am Computer konzipiert. Das Farbdesign orientiert sich an dem der Internetseite des Ballenbergmuseums. Wie in **Abbildung 14** ersichtlich, ist die Webanwendung durch verschiedene Felder visuell gegliedert. Die Nutzenden werden dadurch chronologisch von oben nach unten geführt. Zudem sind die Veranstaltungsfilter und die Prioritätenangaben zu Beginn eingeklappt, dass die Anwendung auf den ersten Blick nicht überladen wirkt. Nach allen Eingaben wird durch Klick auf den Button „Route erstellen“ die Auswahl über eine Schnittstelle ans Backend gesendet. Dazu mehr im **Kapitel 4.4**. Die einzelnen Komponenten der Webanwendung sind in den folgenden Kapiteln erläutert.  
+
 ![Abbildung 14](/documentary/Abbildung_14.png)  
 **Abbildung 14**: Die Webanwendung, gegliedert in ihre Komponenten - die Bedienungselemente sind in der oberen Hälfte der Anwendung, wobei die interaktive Karte, den unteren Teil einnimmt. Die beschriftete Gliederung (links in Blau) ist nicht Teil der Webanwendung.
 
 ## 6.1	Pflichtangaben
 Es gibt Angaben die zur Routenerstellung zwingend anzugeben sind. Dazu gehören der Besuchstag, den Start- und Schlussort der Route und der Aufenthaltszeitraum. Beim Starten der Anwendung sind sie direkt ausgefüllt und werden nicht fälschlicherweise vergessen. Zusätzlich kann in diesem Bereich auch angegeben werden, ob nur barrierefreie Wege in der Route berücksichtigt werden sollen.  
+
 Datum und Start-/Schlussort stehen als Dropdown zur Verfügung. Die Zeitspanne wird über einen Slider angegeben und daneben ist ersichtlich, wie lange die Dauer ist. Diese zeitlichen Angaben sind bereits für die Darstellung der Veranstaltungen notwendig.  
 
 ## 6.2	Veranstaltungsfilter
 Über einen useEffect-Hook werden die zeitlichen Angaben bei jeder Änderung an die Schnittstelle gesendet und zurück kommen alle Programmpunkte, die an diesem Tag zur Verfügung stehen. Diese werden in die drei Kategorien aufgeteilt und die zeitliche Dauer zusammen mit dem Programmnamen sind in der Dropdownliste aufgeführt (**Abbildung 15**).  
+
 ![Abbildung 15](/documentary/Abbildung_15.png)  
 **Abbildung 15**: Die Webanwendung-Elemente „optionale Auswahl“, mit aufgeklapptem Dropdown, welches die Liste der Mitmachaktivitäten anzeigt.
 
 ## 6.3	Prioritätenangaben
 Nach den Veranstaltungsfilter können verschieden Prioritäten angegeben werden, die auf der Route gerne angeschaut werden wollen (**Abbildung 16**). Der Titel ist fragend wie bei den Veranstaltungsfilter. Das fördert das Nutzendenverständnis und erklärt bereits, was in diesem Bereich angegeben werden kann. Alle Tierarten, die auf einer Weide eingetragen sind, und die verschiedenen Geländekammern können ausgewählt werden. Die aktuelle Auswahl wird im Feld direkt angezeigt. Nutzende, welche spezifische Prioritäten für ihre Route definieren wollen, können noch zwischen drei weiteren Filtern aussuchen. Den Tierrassen, der Gebäudebaujahre und der Konstruktionswiese. Die Gebäudebaujahre wurden in Absprache mit Riccarda Theiler, Bereichsleiterin Architektur und Hausforschung des Freilichtmusuems, in Jahrhunderte aufgeteilt (**Anhang 11**). Dabei ist zu beachten, dass Gebäude, die über mehrere Jahrhunderte entstanden, auch in allen entsprechenden Auswahlen auftauchen.  
+
 ![Abbildung 16](/documentary/Abbildung_16.png)  
 **Abbildung 16**: Eine Auswahl von allen Prioritätenangaben im Frontend mit aufgeklappten weiteren Filtern. Die Auswahl umfasst die Tierarten, Geländekammern, Tierrassen, das Gebäudebaujahr und die Konstruktionsweise der Gebäude.  
 
@@ -25,7 +29,9 @@ Die Übersichtskarte wird mit Adobe Illustrator bearbeitet, um die Tiere pro Wei
 
 ## 6.6	Methodik der Datenstrukturierung
 Für die Darstellung der Tiere werden existierende Tiersymbole aus der Übersichtskarte verwendet. Diese Symbole werden in Gruppen zusammengefasst, sodass für jede Weide spezifische Kombinationen dargestellt werden können. Die ID-Struktur folgt dem Muster \{Tierart\}\{Weiden-ID\} (**Abbildung 17**).  
+
 Ähnlich werden die Wegsegmente als separate Ebene erfasst und mit eindeutigen IDs versehen. Diese Methodik ermöglicht eine einfache Integration, hat jedoch den Nachteil, dass die SVG-Datei bei einer grossen Anzahl an Elementen an Grösse zunimmt.  
+
 ![Abbildung 17](/documentary/Abbildung_17.png)  
 **Abbildung 17**: Codierung der SVG-Elemente Tiere (oben) und Wege (unten), exportiert aus Adobe Illustrator (v29.0.1) und veranschaulicht in einem Texteditor  
 
@@ -33,33 +39,43 @@ Eine alternative Methodik besteht darin, die Weiden als Zentroide zu definieren 
 
 ## 6.7	Export der Kartendaten
 Nach der Bearbeitung in Adobe Illustrator werden die Daten als SVG-Dateien exportiert (**Abbildung 18**). Die exportierten Ebenen werden in interaktive (z.B. Tiere, Häuser, Wege) und statische Elemente (z. B. Hintergrunddaten, Labels) unterteilt. Statische Elemente werden als PNG-Datei exportiert, um die Dateigrösse zu reduzieren.  
+
 Ein zentraler Layer namens 5230_Expand sorgt dafür, dass alle exportierten Ebenen die gleiche Ausdehnung haben, um eine korrekte Darstellung in der React-Anwendung zu gewährleisten.  
+
 ![Abbildung 18](/documentary/Abbildung_18.png)  
 **Abbildung 18**: SVG-Optionen für den Export aus Adobe Illustrator (v29.0.1), welche die SVG-Dateien korrekt formatiert. Die Auswahloptionen sind Stil, Schrift, Bilder, Objekt-IDs und Dezimalstellen.
 
 ## 6.8	Funktionalität in React
 Die interaktive Webkarte ermöglicht Filterfunktionen, die die dynamische Darstellung von Wegsegmenten und Tierpositionen steuern. In einer ersten Testanwendung wird eine React-Anwendung entwickelt, die die Kommunikation zwischen Frontend und Backend simuliert. Die SVG-Elemente werden anhand ihrer IDs mit API-Abfragen abgeglichen, um relevante Inhalte ein- oder auszublenden (**Abbildung 19**).  
+
 ![Abbildung 19](/documentary/Abbildung_19.png)  
 **Abbildung 19**: Visualisierung der Wege in einer React-Test-Anwendung. Verschiedene Elemente (farbige Stücke) werden je nach Änderung der Abfrage ein- oder ausgeblendet.  
 
 Zur strukturierten Verwaltung werden alle interaktiven Elemente aus **Kapitel 6.7** eindeutig codiert. Darin enthalten ist die Ebenenstruktur (**Abbildung 20**) der zusätzlichen Ebenen 5230_Tiere, 5230_Weiden und 5230_Wege, welche aus der Modulnummer und der Thematik zusammengesetzt ist. Zudem auch die Tiergruppen. Symbole für verschiedene Tierarten werden je Weide zugeordnet und folgen dem bereits in **Kapitel 6.6** erwähnten Benennungsschema \{Tierart\}\{Weiden-ID\}.  
+
 ![Abbildung 20](/documentary/Abbildung_20.png)  
 **Abbildung 20**: Ebenenreihenfolge der interaktiven Webkarte aus Adobe Illustrator (v29.0.1). Der finale Export umfasst acht Ebenen aus statischen und interaktiven Layergruppen.  
 
 Erste Tests zeigen, dass die Webkarte performant arbeitet, jedoch bei einer Gesamtgrösse der SVG-Datei von über 100 MB Schwierigkeiten auftreten können. Um dies zu beheben, werden interaktive Elemente und statische Inhalte in getrennten Formaten gespeichert. Um den Überblick bei den vielen Exporten zu behalten, wird eine Liste erstellt, welche die Daten und Versionsnummern enthält.  
+
 Die Umsetzung der interaktiven Webkarte in Kombination mit SVG- und React-Technologien ermöglicht eine flexible und benutzerfreundliche Darstellung (**Abbildung 21**). Während die aktuelle Methodik effizient und nachvollziehbar ist, könnten zukünftige Projekte von einer kompakteren Datenstruktur mit Zentroiden profitieren, um die Performance zu verbessern sowie auch die Flexibilität bei Veränderungen zu vereinfachen.  
+
 ![Abbildung 21](/documentary/Abbildung_21.png)  
 **Abbildung 21**: Erfassung der Tiere in der Adobe Illustrator-Datei pro Weide (links) und mit API-Abfrage, der zu darstellende Tiere, welche sich zurzeit auf der Weide befinden (rechts)  
 
 Nutzende können detaillierte Informationen zu Tierrassen abrufen, indem sie auf eine aktuell genutzte Weide klicken. Ein Pop-up zeigt dann die entsprechenden Informationen an (**Abbildung 22**). Momentan werden Platzhaltertexte verwendet, diese Inhalte sollen später jedoch vom Freilichtmuseum Ballenberg bereitgestellt werden. Zusätzlich wird ein Hover-Effekt über den Weiden implementiert, der den Nutzenden anzeigt, dass diese anklickbar sind, was die Benutzungsfreundlichkeit erhöht.  
+
 ![Abbildung 22](/documentary/Abbildung_22.png)  
 **Abbildung 22**: Pop-up mit Informationen zu den Tierrassen und Hover-Effekt auf den Weiden (orange Fläche oben links). Die Information besteht aus interaktiven Elementen. Der Inhalt ist ein Beispielplatzhaltertext.  
 
 Der Button „Route erstellen“ ermöglicht es, basierend auf den ausgewählten Kriterien eine personalisierte Route zu generieren. Wenn keine Route erstellt werden kann, erscheint ein Alert oberhalb der Karte, der auf den fehlgeschlagenen Vorgang hinweist und darum bittet, die Eingaben oder Filter zu überprüfen (**Abbildung 23**).  
+
 Für kleinere Bildschirme, bei denen die Karte möglicherweise nicht sofort sichtbar ist, gibt es den Button „zeige Karte“, der direkt zur Karte führt. Diese Funktion stellt sicher, dass die Karte auch auf kleineren Geräten leicht auffindbar ist. In zukünftigen Versionen könnte diese Funktion durch einen visuellen Indikator oder eine Vorschau der Karte weiter verbessert werden.  
+
 ![Abbildung 22](/documentary/Abbildung_22.png)  
 **Abbildung 23**: Alert-Mui-Element, welches Nutzenden eine Warnung gibt, sollten keine Routen erstellt werden (oben) oder eine erstellt wird (unten). Die Route wird in oranger Farbe dargestellt.  
 
 ## 6.9	Umsetzung der Webanwendung
 Die Anwendung wird mit React entwickelt, ein Framework für interaktive Benutzenden-Oberflächen. Als Build-Tool und Entwicklungsumgebung wird Vite verwendet. Vite ist ein modernes Frontend-Tool, das sich durch schnelle Entwicklungszeiten auszeichnet. Es bietet einen schnellen Entwicklungsserver, der Änderungen nahezu in Echtzeit anzeigt, und optimiert den Build-Prozess durch moderne Techniken wie Code-Splitting und Tree-Shaking. Vite wird aufgrund seiner Performance, einfachen Konfiguration und besseren Unterstützung für moderne JavaScript-Frameworks wie React gewählt. Diese Eigenschaften machen Vite ideal für Projekte, die eine hohe Entwicklungs- und Build-Effizienz erfordern. (Evan You & Vite Contributors 2019)  
+
 Das Backend wird in den **Kapiteln 4** und **4.4** beschrieben.  
