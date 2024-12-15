@@ -1,7 +1,12 @@
 {
   "einleitung": { "title": "Einleitung", "order": 1 },
   "literaturrecherche": { "title": "Literaturrecherche", "order": 2 },
-  "projekt": { "title": "Projekt", "order": 3 },
-  "reflektion": { "title": "Reflektion", "order": 4 },
-  "fazit": { "title": "Fazit", "order": 5 }
+  "grundlagedaten": { "title": "Grundlagedaten", "order": 3 },
+  "datenbankinfrastruktur_und_API_Integration": { "title": "Datenbankinfrastruktur und API-Integration", "order": 4 },
+  "tierstandorterfassung_Landwirte_Anwendung": { "title": "Tierstandorterfassung: Landwirte Anwendung", "order": 5 },
+  "webanwendung": { "title": "Webanwendung", "order": 6 },
+  "umsetzung_Routing": { "title": "Umsetzung Routing", "order": 7 },
+  "erweiterbare_Funktionalitäten": { "title": "Erweiterbare Funktionalitäten", "order": 8 },
+  "schluss": { "title": "Schluss", "order": 9 },
+  "persönliche Reflexion": { "title": "Persönliche Reflexion", "order": 10 }
 }
