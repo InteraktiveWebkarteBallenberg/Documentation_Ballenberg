@@ -1,5 +1,5 @@
 {
-  "einfuehrung": { "title": "Einführung", "order": 1 },
-  "funktionalitaet": { "title": "Funktionalität der Webkarte", "order": 2 },
-  "user-persona": { "title": "User-Persona", "order": 3 }
+  "einfuehrung": { "title": "Einführung" },
+  "funktionalitaet": { "title": "Funktionalität der Webkarte" },
+  "user-persona": { "title": "User-Persona" }
 }

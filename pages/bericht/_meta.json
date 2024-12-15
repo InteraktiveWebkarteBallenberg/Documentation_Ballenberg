@@ -1,3 +1,18 @@
 {
-  "einleitung": { "title": "1 Einleitung", "order": 1 }
+  "einleitung": { "title": "1 Einleitung" },
+  "literaturrecherche": { "title": "2 Literaturrecherche" },
+  "grundlagedaten": { "title": "3 Grundlagedaten" },
+  "datenbankinfrastruktur_und_API_Integration": {
+    "title": "4 Datenbankinfrastruktur und API-Integration"
+  },
+  "tierstandorterfassung_Landwirte_Anwendung": {
+    "title": "5 Tierstandorterfassung: Landwirte Anwendung"
+  },
+  "webanwendung": { "title": "6 Webanwendung" },
+  "umsetzung_Routing": { "title": "7 Umsetzung Routing" },
+  "erweiterbare_Funktionalitaeten": {
+    "title": "8 Erweiterbare Funktionalitäten"
+  },
+  "schluss": { "title": "9 Schluss" },
+  "persoenliche_Reflexion": { "title": "10 Persönliche Reflexion" }
 }
