@@ -6,7 +6,7 @@
   "tierstandorterfassung_Landwirte_Anwendung": { "title": "Tierstandorterfassung: Landwirte Anwendung", "order": 5 },
   "webanwendung": { "title": "Webanwendung", "order": 6 },
   "umsetzung_Routing": { "title": "Umsetzung Routing", "order": 7 },
-  "erweiterbare_Funktionalitäten": { "title": "Erweiterbare Funktionalitäten", "order": 8 },
+  "erweiterbare_Funktionalitaeten": { "title": "Erweiterbare Funktionalitäten", "order": 8 },
   "schluss": { "title": "Schluss", "order": 9 },
   "persönliche Reflexion": { "title": "Persönliche Reflexion", "order": 10 }
 }
